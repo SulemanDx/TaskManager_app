@@ -1,0 +1,144 @@
+
+html, body {
+    padding: 0;
+    margin: 0;
+    background: #E8F4F7;
+    height: 100%;
+    width: 100%;
+
+    font-family: Verdana;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main,
+.user {
+    padding: 10px 20px 20px 20px;
+    border-radius: 10px;
+    box-shadow: 2px 5px 10px rgb(214, 214, 214);
+    background-color: white;
+}
+
+.user {
+    position: absolute;
+    top: 10px;
+}
+
+.main {
+    position: relative;
+}
+
+.main h1 {
+    color: #1B73E8;
+    text-align: center;
+    font-size: 45px;
+    text-shadow: #0e3e7c 2px 2px 2px;
+}
+
+.main input {
+    border: 2px solid #1B73E8;
+    border-radius: 7px;
+    font-size: 16px;
+    padding-inline: 5px;
+    padding: 5px;
+}
+
+.main input:focus {
+    border: 3px solid #1673ed;
+    border-radius: 7px;
+
+}
+
+.main button {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    background-color: #1B73E8;
+    padding: 5px 10px 5px 10px;
+    margin-left: 10px;
+    border: 2px solid #1B73E8;
+    border-radius: 7px;
+}
+
+.main .remove {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    background-color: red;
+    padding: 4px 8px 5px 8px;
+    border-radius: 7px;
+    float: right;
+}
+
+#addTask:hover {
+    animation: both 0.25s ease-in-out;
+    background-color: rgb(10, 225, 10);
+    border: 3px solid rgb(10, 225, 10);
+}
+
+#clean:hover {
+    animation: both 0.25s ease-in-out;
+    background-color: red;
+    border: 3px solid red;
+}
+
+.adder {
+    margin-bottom: 10px;
+}
+
+.counter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1px;
+    margin-bottom: 10px;
+    
+}
+
+.counter p{
+    margin: 0;
+    color: #1673ed;
+    font-size: 16px;
+    margin-top: 1px;
+}
+
+#taskDone {
+    color: rgb(10, 225, 10);
+}
+
+#taskRemaining {
+    color: red;
+}
+
+.tasks {
+    display: flex;
+    flex-direction: column;
+}
+
+.task {
+    text-align: center;
+    color: #1673ed;
+    font-size: 18px;
+    background: rgb(241, 241, 241);
+    border: #1673ed solid 2px;
+    border-radius: 7px;
+    padding: 10px 7px 10px 7px;
+    margin-bottom: 10px;
+}
+
+.task_name {
+    text-align: center;
+}
+
+.checktask {
+    float: left;
+    background-color: greenyellow;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
