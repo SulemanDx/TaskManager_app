@@ -21,10 +21,10 @@ class Task {
     }
 }
 
-function createTaskHTML(id, name) {
+function createTaskHTML(name) {
     return `
         <input type="checkbox" class="checktask">
-        <span class="task_name" id="${id}">${name}</span>
+        <span class="task_name">${name}</span>
         <button type="button" class="remove">Remove</button>
     `;
 }
@@ -84,10 +84,10 @@ function addNewTask(){
         console.log("Task salvato con successo:", data);
         let newtask = document.createElement("div");
         newtask.classList.add("task");
-
+        newtask.setAttribute("id", data.id);
         newtask.innerHTML = `
         <input type="checkbox" class="checktask">
-        <span class="task_name" id="${data.id}">${data.taskName}</span>
+        <span class="task_name">${data.taskName}</span>
         <button type="button" class="remove"></button>
         `;
 
@@ -100,7 +100,8 @@ function addNewTask(){
         // remove
         newtask.querySelector(".remove").addEventListener("click", (e) => {
             e.preventDefault();
-            newtask.remove();
+            if (reqRemoveTask(newtask)) newtask.remove();
+            console.log("Removed Successfuly..");
             updateTaskCounter();
         });
 
@@ -128,22 +129,80 @@ function addNewTask(){
     });
 }
 
-function removeAllTasks() {
-    if (taskCounter === 0) return;
-    clean.addEventListener("click", (e) => {
-        e.preventDefault();
+async function loadTasks() {
+    const taskDB = fetch(`${BaseURL}/tasks`);
+    const tasksObj = (await taskDB).json();
 
-        document.querySelectorAll(".task").forEach(task => {
-            task.remove();
+
+    for (const task of await tasksObj){
+        try{
+            let newtask = document.createElement("div");
+            newtask.classList.add("task");
+            newtask.setAttribute("id", task.id);
+            newtask.innerHTML = `
+            <input type="checkbox" class="checktask">
+            <span class="task_name">${task.taskName}</span>
+            <button type="button" class="remove"></button>
+            `;
+            tasks.appendChild(newtask);
+            input.value = "";
+            updateTaskCounter();
+
+            // remove
+            newtask.querySelector(".remove").addEventListener("click", (e) => {
+                e.preventDefault();
+                if (reqRemoveTask(newtask)) newtask.remove();
+                console.log("Removed Successfuly..");
+                updateTaskCounter();
+            });
+
+            // click su task
+            newtask.addEventListener("click", (e) => {
+                if (e.target.classList.contains("remove")) return;
+
+                const checkbox = newtask.querySelector(".checktask");
+                checkbox.checked = !checkbox.checked;
+
+                changeTaskStatus(newtask);
+                updateTaskCounter();
+            });
+
+            // checkbox
+            newtask.querySelector(".checktask").addEventListener("click", (e) => {
+                e.stopPropagation();
+                changeTaskStatus(newtask);
+                updateTaskCounter();
+            });
+        }
+        catch(e){
+            console.log("Error: ", e);
+        }
+        
+    }
+}
+
+async function reqRemoveTask(task) {
+    try{
+        const res = fetch(
+            `${BaseURL}/deleteTask/${task.getAttribute("id")}`,
+        {
+            method: "DELETE"
         });
+        if (!res.ok) return false;
 
-        updateTaskCounter();
-    });
+        return true;
+    }
+    catch(e){
+        console.error(e);
+    }
 }
 
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Js caricato..");
+
+    loadTasks();
+
     // on click add task
     addTask.addEventListener("click", (e) => {
         e.preventDefault(); // <--- FONDAMENTALE
@@ -164,5 +223,16 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("REFRESH!!!");
     });
 
-    //removeAllTasks();
+    clean.addEventListener("click", (e) => {
+        e.preventDefault();
+        const allTasks = tasks.querySelectorAll(".task");
+        console.log(allTasks);
+        allTasks.forEach(task => {
+            if (reqRemoveTask(task)) {
+                task.remove();
+            }
+        });
+        updateTaskCounter();
+    });
+    
 });
