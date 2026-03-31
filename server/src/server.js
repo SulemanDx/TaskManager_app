@@ -1,17 +1,37 @@
+// 127.0.0.1:5000/TaskManager.app -> web site
+// 127.0.0.1:5000/taskManager/api/ -> api
 
 const PORT = 5000;
 const baseURL = "/taskManager/api";
 const dbURL = "./dbTasks.json";
-// 127.0.0.1:5000/taskManager/api/
+
 
 const express = require("express");
 const cors = require("cors");
 
+const path = require("path");
 const fs = require("fs").promises;
 const app = express();
-app.use(express.json()); 
+
+app.use(express.json());
 app.use(cors()); // Abilita CORS per tutte le richieste
 
+// client dirctory absolute path
+const clientPath = path.join(__dirname, '../../client');
+
+app.use(express.static(clientPath));
+
+// Get TaskManager site
+app.get(`/TaskManager.app`, async (req, res) => {
+    try{
+        console.log("Requested web page..");
+        res.status(200).sendFile(`${clientPath}/index.html`);
+        console.log("Sending web page..");
+    }
+    catch(e){
+        res.status(404).send("Page not found");
+    }
+});
  
 
 // Req. DB TaskManager
@@ -80,7 +100,7 @@ app.post(`${baseURL}/addTask`, async (req, res) => {
     console.log("Received task:", reqTask);
     // Validation
     
-    console.log("Task is valid.");
+    //console.log("Task is valid.");
     // add task
     let newTask = {
         id: await getNextId(),
