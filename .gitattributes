@@ -1,1 +1,10 @@
+# Imposta il comportamento predefinito per gestire tutti i file di testo 
+# e convertirli automaticamente in LF nel repository.
 * text=auto
+
+# Forza l'uso di LF (stile Unix) per i file di configurazione JavaScript/Node 
+# che devono essere consistenti tra i vari sistemi operativi.
+*.json text eol=lf
+*.js text eol=lf
+package-lock.json text eol=lf
+package.json text eol=lf
