@@ -1,10 +1,23 @@
-# Imposta il comportamento predefinito per gestire tutti i file di testo 
-# e convertirli automaticamente in LF nel repository.
+# Comportamento predefinito: Git decide se un file è di testo e lo normalizza
 * text=auto
 
-# Forza l'uso di LF (stile Unix) per i file di configurazione JavaScript/Node 
-# che devono essere consistenti tra i vari sistemi operativi.
+# Web / Frontend: Forza LF per coerenza nel rendering e negli strumenti di build
+*.html text eol=lf
+*.css  text eol=lf
+*.scss text eol=lf
+*.js   text eol=lf
+*.jsx  text eol=lf
+*.ts   text eol=lf
+*.tsx  text eol=lf
+
+# Node.js / Backend: Cruciale per file di configurazione e lock
 *.json text eol=lf
-*.js text eol=lf
-package-lock.json text eol=lf
 package.json text eol=lf
+package-lock.json text eol=lf
+.env* text eol=lf
+
+# Documentazione e Config
+*.md   text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+.editorconfig text eol=lf
