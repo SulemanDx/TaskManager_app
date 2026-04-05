@@ -4,17 +4,16 @@
 const { loadEnvFile } = require('node:process');
 loadEnvFile('../.env');
 
-
 const PORT = process.env.API_PORT || 3000;
 
 const express = require("express");
-
 const app = express();
 
-const taskRoutes = require('./modules/task/taskRoutes');
+app.use(express.json());
 
-app.use(express.json);
-app.use('', taskRoutes);
+// Tasks Endpoints
+const taskRoutes = require('./modules/task/taskRoutes');
+app.use(process.env.API_URL, taskRoutes);
 
 
 app.listen(PORT, () => {
